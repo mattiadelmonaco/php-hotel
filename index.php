@@ -55,7 +55,35 @@
     <!-- /HEADER -->
 <!-- MAIN -->
     <main>
-   
+    <?php
+    foreach ($hotels as $hotel) {
+
+        if ($hotel["parking"] === true) {
+            $hotel["parking"] = "Disponibile";
+        } else {
+            $hotel["parking"] = "Non disponibile";
+        }
+
+        // stampare in pagina manualmente i dati di tutti gli hotel
+
+        // echo "<b>Nome: </b>" . $hotel["name"] 
+        // .  " <br> <b>Descrizione: </b>" . $hotel["description"] 
+        // .  " <br> <b>Disponibilità parcheggio: </b>" . $hotel["parking"] 
+        // .  " <br> <b>Voto hotel: </b>" . $hotel["vote"] 
+        // .  " <br> <b>Distanza dal centro: </b>" . $hotel["distance_to_center"] . "km"
+        // . "<br>";
+
+        // stampare in pagina i dati di tutti gli hotel con un altro foreach
+
+        foreach ($hotel as $key => $value) {
+            echo "<b>" . $key . "</b>" . ": " . $value . "<br>";
+        }
+        echo "<br>";
+        
+    }
+
+    
+    ?>
     </main>
 <!-- /MAIN -->
 
