@@ -54,39 +54,55 @@
 </head>
 <body class="bg-dark-subtle">
     <!-- HEADER -->
-    <header><h1 class="text-center my-3">LISTA HOTEL</h1></header>
+    <header>
+        <h1 class="text-center my-3">LISTA HOTEL</h1>
+    </header>
     <!-- /HEADER -->
 <!-- MAIN -->
     <main>
 
-     <?php
-    // foreach ($hotels as $hotel) {
+    <!-- FORM PER FILTRARE RISULTATO -->
 
-    //     if ($hotel["parking"] === true) {
-    //         $hotel["parking"] = "Disponibile";
-    //     } else {
-    //         $hotel["parking"] = "Non disponibile";
-    //     }
+    <section class="container my-3">
+        <h3>Filtra risultato per...</h3>
+    <form action="" method="GET">
+        <label for="checkbox">Disponibilità parcheggio</label>
+        <input id="checkbox" name="parking" type="checkbox" >
+        <label for="select">Voto</label>
+        <select id="select" name="vote" class="border-0">
+            <option value="" selected>-</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <button type="submit" class="border-0">Filtra</button>
+    </form>
+    </section>
 
-        // stampare in pagina manualmente i dati di tutti gli hotel
+    <?php
+        $filteredHotels = [];
 
-        // echo "<b>Nome: </b>" . $hotel["name"] 
-        // .  " <br> <b>Descrizione: </b>" . $hotel["description"] 
-        // .  " <br> <b>Disponibilità parcheggio: </b>" . $hotel["parking"] 
-        // .  " <br> <b>Voto hotel: </b>" . $hotel["vote"] 
-        // .  " <br> <b>Distanza dal centro: </b>" . $hotel["distance_to_center"] . "km"
-        // . "<br>";
+        $parkingFilter = isset($_GET['parking']) && $_GET['parking'] === 'on';
+        $voteFilter = isset($_GET['vote']) && $_GET['vote'] !== '';
 
-        // stampare in pagina i dati di tutti gli hotel con un altro foreach
+        foreach ($hotels as $hotel) {
+            if ($parkingFilter && !$hotel['parking']) {
+                continue;
+            }
 
-        // foreach ($hotel as $key => $value) {
-        //     echo "<b>" . $key . "</b>" . ": " . $value . "<br>";
-        // }
-        // echo "<br>";
-    // }
+            if ($voteFilter && $hotel['vote'] < $_GET['vote']) {
+                continue;
+            }
+
+            $filteredHotels[] = $hotel;
+        }
     ?>
-<section class="container">
-<table class="table table-striped">
+
+    <!-- TABELLA CON LISTA HOTEL -->
+    <section class="container">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Nome</th>
@@ -98,7 +114,7 @@
             </thead>
             <tbody>
                 <?php
-                foreach ($hotels as $hotel) {
+                foreach ($filteredHotels as $hotel) {
                     if ($hotel["parking"] === true) {
                         $hotel["parking"] = "Disponibile";
                     } else {
@@ -115,7 +131,7 @@
                 ?>
             </tbody>
         </table>
-        </section>
+    </section>
     </main>
 <!-- /MAIN -->
 
